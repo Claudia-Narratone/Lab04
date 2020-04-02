@@ -9,9 +9,12 @@ public class TestModel {
 		
 		System.out.println(model.getTuttiICorsi());
 		
-		System.out.println(model.getTuttiStudenti());
+		//System.out.println(model.getTuttiStudenti());
 
-		System.out.println(model.getStudentiIscrittiAlCorso(corso));
+		//System.out.println(model.getStudentiIscrittiAlCorso(corso));
+		
+		//System.out.println(model.getCorsiStudente("146101"));
 	}
+	
 
 }

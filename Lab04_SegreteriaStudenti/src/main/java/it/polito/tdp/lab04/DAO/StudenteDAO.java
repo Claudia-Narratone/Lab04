@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.polito.tdp.lab04.model.Corso;
 import it.polito.tdp.lab04.model.Studente;
 
 public class StudenteDAO {
@@ -57,5 +58,39 @@ public class StudenteDAO {
 		return null;
 	}
 	
+	//NullPointer qua dentro
+	public List<String> getCorsiStudente(String matricola){
+		List<String> result=new ArrayList<String>();
+		
+		String sql="SELECT codins FROM iscrizione WHERE matricola=?";
+		
+		try {
+			Connection conn = ConnectDB.getConnection();
+			PreparedStatement st = conn.prepareStatement(sql);
+			st.setString(1, matricola);
 
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next()) {
+				String codins=rs.getString("codins");
+				result.add(codins);
+			}
+			
+			conn.close();
+			
+			return result;
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Errore Db", e);
+		}
+	}
+	
+	
+	public boolean isStudenteIscrittoAlCorso(String nomeCorso, String matricola) {
+		
+		
+		
+		return true;
+	}
 }

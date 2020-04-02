@@ -35,4 +35,18 @@ public class Model {
 		}
 		return studenti;
 	}
+	
+	public List<Corso> getCorsiStudente(String matricola){
+		Corso corso;
+		List<String> codins=sDao.getCorsiStudente(matricola);
+		List<Corso> corsi=new ArrayList<Corso>();
+		for(String s:codins) {
+			if(dao.getCorso(s).equals(null)) {
+				return null;
+			}
+			corso=dao.getCorso(s);
+			corsi.add(corso);
+		}
+		return corsi;
+	}
 }

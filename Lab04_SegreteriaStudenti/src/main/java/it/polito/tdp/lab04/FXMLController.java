@@ -1,7 +1,10 @@
 package it.polito.tdp.lab04;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.sun.tools.javac.util.List;
 
 import it.polito.tdp.lab04.model.Corso;
 import it.polito.tdp.lab04.model.Model;
@@ -38,8 +41,8 @@ public class FXMLController {
     private TextField txtMatricola;
     
     @FXML
-    private CheckBox btnCheck;
-
+    private Button btnCheck;
+   
     @FXML
     private TextField txtNome;
 
@@ -60,12 +63,29 @@ public class FXMLController {
 
     @FXML
     void doCercaCorsi(ActionEvent event) {
-
+    	txtResult.clear();
+    	String matricola=txtMatricola.getText();
+    	if(model.getCorsiStudente(matricola).equals(null)) {
+    		txtResult.setText("Studente non esistente del db");
+    	}
+    	for(Corso c:model.getCorsiStudente(matricola)) {
+    		txtResult.appendText(c.toString()+"\n");
+    	}
     }
 
     @FXML
     void doCercaIscritti(ActionEvent event) {
-
+    	txtResult.clear();
+    	String nomeCorso=choiceCorso.getValue();
+    	ArrayList<Studente> studenti=new ArrayList<Studente>();
+    	for(Corso c:model.getTuttiICorsi()) {
+    		if(c.getNome().equals(nomeCorso)) {
+    			studenti.addAll(model.getStudentiIscrittiAlCorso(c)) ;
+    		}
+    	}
+    	for(Studente s:studenti) {
+    		txtResult.appendText(s.toString()+"\n");
+    	}
     }
     
     @FXML
@@ -79,13 +99,17 @@ public class FXMLController {
     	
     	for(Studente s:model.getTuttiStudenti()){
     		if(s.getMatricola().equals(matricola)) {
+    			btnCheck.setText("V");
     			txtNome.setText(s.getNome());
     			txtCognome.setText(s.getCognome());
     			return;
     		}
     	}
+    	
     	txtResult.setText("Studente non presente nel DB");
     }
+    
+  
 
     @FXML
     void doIscrivi(ActionEvent event) {
@@ -115,11 +139,12 @@ public class FXMLController {
         assert txtReset != null : "fx:id=\"txtReset\" was not injected: check your FXML file 'Scene.fxml'.";
         
         for(Corso c:model.getTuttiICorsi()) {
-        	 list.addAll(c.getNome());
+        	 list.add(c.getNome());
         }
-        list.add("");
+        list.add(" ");
         choiceCorso.setItems(list);
-		choiceCorso.setValue("");
+		choiceCorso.setValue(" ");
+		
 
     }
     
